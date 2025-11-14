@@ -1,0 +1,1 @@
+"""Expenses MCP server package."""

@@ -1,0 +1,10 @@
+[project]
+name = "expenses-mcp"
+version = "0.1.0"
+description = "Multi-container expense management system with MCP server and Gradio UI"
+requires-python = ">=3.11"
+dependencies = []
+
+[tool.uv]
+dev-dependencies = []
+

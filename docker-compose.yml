@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  api:
+    build: ./expense_api
+    container_name: expenses_api
+    ports:
+      - "9000:9000"
+    restart: unless-stopped
+
+  mcp:
+    build: ./expense_mcp_server
+    container_name: expenses_mcp
+    environment:
+      - EXPENSES_API_BASE=http://api:9000
+    ports:
+      - "8000:8000"
+    depends_on:
+      - api
+    restart: unless-stopped
+
+  agent:
+    build: ./expense_agent_app
+    container_name: expenses_agent
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - MCP_SERVER_URL=http://mcp:8000
+    ports:
+      - "7860:7860"
+    depends_on:
+      - mcp
+    restart: unless-stopped
