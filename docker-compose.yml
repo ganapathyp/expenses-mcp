@@ -20,13 +20,17 @@ services:
     restart: unless-stopped
 
   agent:
-    build: ./expense_agent_app
+    build:
+      context: .
+      dockerfile: expense_agent_app/Dockerfile
     container_name: expenses_agent
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - EXPENSES_API_BASE=http://api:9000
       - MCP_SERVER_URL=http://mcp:8000
     ports:
       - "7860:7860"
     depends_on:
+      - api
       - mcp
     restart: unless-stopped

@@ -5,10 +5,14 @@ WORKDIR /app
 # Install uv
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
-COPY requirements.txt ./
-RUN uv pip install --system --no-cache -r requirements.txt
+# Copy and install agent app requirements
+COPY expense_agent_app/requirements.txt ./expense_agent_app/
+RUN uv pip install --system --no-cache -r expense_agent_app/requirements.txt
 
-COPY . .
+# Copy agent app code
+COPY expense_agent_app/ ./expense_agent_app/
+
+WORKDIR /app/expense_agent_app
 
 EXPOSE 7860
 
